@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.coluna1 {
+  transition: width 0.2s ease;
+}
+
+.coluna2 {
+  flex: 1;
+}

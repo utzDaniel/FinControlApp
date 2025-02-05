@@ -1,0 +1,91 @@
+<div class="button-container">
+  <mat-form-field class="filtro">
+    <mat-label>Filtrar</mat-label>
+    <input
+      class="filtro_2"
+      matInput
+      (keyup)="filtrar($event)"
+      placeholder="Ex. id, nome"
+    />
+  </mat-form-field>
+
+  <app-button-create
+    *ngIf="!isEditing"
+    (actionResult)="onCreate()"
+  ></app-button-create>
+
+  <app-button-edit
+    *ngIf="!isEditing"
+    [disabled]="!selectedItem"
+    (actionResult)="onEdit()"
+  >
+  </app-button-edit>
+
+  <app-button-delete
+    *ngIf="!isEditing"
+    [disabled]="!selectedItem"
+    [dialogData]="DIALOG_DATA"
+    (actionResult)="onDelete($event)"
+  >
+  </app-button-delete>
+
+  <app-button-save
+    *ngIf="isEditing"
+    [disabled]="false"
+    (actionResult)="onSave()"
+  >
+  </app-button-save>
+
+  <app-button-cancel
+    *ngIf="isEditing"
+    [texto]="'Cancelar'"
+    (actionResult)="onCancel()"
+  >
+  </app-button-cancel>
+</div>
+
+<div>
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="!(element.id === newItem.id)">{{ element.id }}</span>
+
+        <mat-form-field *ngIf="element.id === newItem.id">
+          <input matInput disabled [value]="element.id" />
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="!(element.id === newItem.id)">{{ element.nome }}</span>
+
+        <mat-form-field *ngIf="element.id === newItem.id">
+          <input
+            matInput
+            [value]="element.nome"
+            (input)="atualizarCampo(element, 'nome', $event)"
+          />
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="COLUNAS"></tr>
+    <tr
+      mat-row
+      (click)="selecionar(row)"
+      (keydown.enter)="selecionar(row)"
+      [ngClass]="{ selected: row === selectedItem }"
+      *matRowDef="let row; columns: COLUNAS"
+    ></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[11]"
+    aria-label="Select page"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</div>

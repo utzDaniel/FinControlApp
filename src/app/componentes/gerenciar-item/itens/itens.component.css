@@ -1,0 +1,48 @@
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 10px 10px 0px 0px;
+}
+
+.filtro {
+  margin-bottom: -20px;
+}
+
+.button-container .mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.selected {
+  background-color: #f0e9e9;
+  border: #bb0707 solid 5px;
+}
+
+th {
+  font-weight: bold;
+}
+
+table .mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: -21px;
+  height: 72px;
+  padding: 0px;
+}
+
+table {
+  border-bottom: 1px solid #74777f;
+}
+
+.mat-column-id {
+  width: auto;
+  padding: 0px 0px 0px 15px;
+  text-align: left;
+}
+
+.mat-column-nome {
+  width: 50%;
+  text-align: left;
+  padding: 0px;
+}

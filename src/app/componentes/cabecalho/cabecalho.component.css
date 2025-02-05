@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+.app-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #555;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #888;
+}

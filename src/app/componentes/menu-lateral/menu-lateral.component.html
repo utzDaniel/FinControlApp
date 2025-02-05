@@ -1,0 +1,27 @@
+<div
+  class="sidebar"
+  [ngClass]="{ collapsed: isCollapsed }"
+  (mouseenter)="expandSidebar()"
+  (mouseleave)="collapseSidebar()"
+>
+  <ul>
+    <li>
+      <i class="fas fa-money-bill-wave"></i
+      ><span *ngIf="!isCollapsed">Despesa</span>
+    </li>
+    <li><i class="fas fa-box"></i><span *ngIf="!isCollapsed">Item</span></li>
+    <li>
+      <i class="fas fa-credit-card"></i
+      ><span *ngIf="!isCollapsed">Pagamento</span>
+    </li>
+    <li>
+      <i class="fas fa-user-tie"></i><span *ngIf="!isCollapsed">Salário</span>
+    </li>
+    <li>
+      <i class="fas fa-gift"></i><span *ngIf="!isCollapsed">Benefício</span>
+    </li>
+    <li>
+      <i class="fas fa-users"></i><span *ngIf="!isCollapsed">Família</span>
+    </li>
+  </ul>
+</div>
