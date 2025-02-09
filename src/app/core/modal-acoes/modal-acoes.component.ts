@@ -1,36 +1,36 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   MatDialogModule,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { DialogData } from '../../core/DialogData';
+import { DialogData } from '../../core/dialog-data';
 import { MatIconModule } from '@angular/material/icon';
-import { ButtonCancelComponent } from '../buttons/button-cancel/button-cancel.component';
-import { ButtonConfirmComponent } from '../buttons/button-confirm/button-confirm.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-modal-acoes',
-  imports: [
-    MatDialogModule,
-    MatIconModule,
-    ButtonCancelComponent,
-    ButtonConfirmComponent,
-  ],
+  imports: [MatDialogModule, MatIconModule, CommonModule],
   templateUrl: './modal-acoes.component.html',
   styleUrl: './modal-acoes.component.css',
 })
-export class ModalAcoesComponent {
+export class ModalAcoesComponent implements OnInit {
+  isVisible: boolean = true;
+
   constructor(
     public dialogRef: MatDialogRef<ModalAcoesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
+  ngOnInit(): void {}
+
   closeDialog(): void {
     this.dialogRef.close(false);
+    this.isVisible = false;
   }
 
   confirmDialog(): void {
     this.dialogRef.close(true);
+    this.isVisible = false;
   }
 }

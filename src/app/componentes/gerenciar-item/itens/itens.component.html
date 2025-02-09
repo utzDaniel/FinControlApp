@@ -9,39 +9,48 @@
     />
   </mat-form-field>
 
-  <app-button-create
+  <app-button-acoes
     *ngIf="!isEditing"
+    [label]="'Cadastrar'"
+    [tipo]="'add'"
     (actionResult)="onCreate()"
-  ></app-button-create>
+  >
+  </app-button-acoes>
 
-  <app-button-edit
+  <app-button-acoes
     *ngIf="!isEditing"
+    [label]="'Editar'"
+    [tipo]="'edit'"
     [disabled]="!selectedItem"
     (actionResult)="onEdit()"
   >
-  </app-button-edit>
+  </app-button-acoes>
 
-  <app-button-delete
+  <app-button-acoes
     *ngIf="!isEditing"
+    [label]="'Deletar'"
+    [tipo]="'delete'"
     [disabled]="!selectedItem"
     [dialogData]="DIALOG_DATA"
     (actionResult)="onDelete($event)"
   >
-  </app-button-delete>
+  </app-button-acoes>
 
-  <app-button-save
+  <app-button-acoes
     *ngIf="isEditing"
-    [disabled]="false"
+    [label]="'Salvar'"
+    [tipo]="'save'"
     (actionResult)="onSave()"
   >
-  </app-button-save>
+  </app-button-acoes>
 
-  <app-button-cancel
+  <app-button-acoes
     *ngIf="isEditing"
-    [texto]="'Cancelar'"
+    [label]="'Cancelar'"
+    [tipo]="'cancel'"
     (actionResult)="onCancel()"
   >
-  </app-button-cancel>
+  </app-button-acoes>
 </div>
 
 <div>

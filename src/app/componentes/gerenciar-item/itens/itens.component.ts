@@ -1,4 +1,3 @@
-import { ButtonDeleteComponent } from './../../buttons/button-delete/button-delete.component';
 import { ItemService } from '../item.service';
 import {
   Component,
@@ -12,14 +11,11 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { DialogData } from '../../../core/DialogData';
-import { ButtonEditComponent } from '../../buttons/button-edit/button-edit.component';
-import { ButtonCreateComponent } from '../../buttons/button-create/button-create.component';
+import { DialogData } from '../../../core/dialog-data';
 import { FormsModule } from '@angular/forms';
-import { ButtonSaveComponent } from '../../buttons/button-save/button-save.component';
-import { ButtonCancelComponent } from '../../buttons/button-cancel/button-cancel.component';
 import { Item } from '../../../core/item';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ButtonAcoesComponent } from '../../../core/button-acoes/button-acoes.component';
 
 @Component({
   selector: 'app-itens',
@@ -29,12 +25,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    ButtonDeleteComponent,
-    ButtonEditComponent,
-    ButtonCreateComponent,
     FormsModule,
-    ButtonSaveComponent,
-    ButtonCancelComponent,
+    ButtonAcoesComponent,
   ],
   templateUrl: './itens.component.html',
   styleUrl: './itens.component.css',

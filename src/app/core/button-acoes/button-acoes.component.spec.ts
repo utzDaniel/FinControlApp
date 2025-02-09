@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ButtonSaveComponent } from './button-save.component';
+import { ButtonAcoesComponent } from './button-acoes.component';
 
-describe('ButtonSaveComponent', () => {
-  let component: ButtonSaveComponent;
-  let fixture: ComponentFixture<ButtonSaveComponent>;
+describe('ButtonAcoesComponent', () => {
+  let component: ButtonAcoesComponent;
+  let fixture: ComponentFixture<ButtonAcoesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonSaveComponent],
+      imports: [ButtonAcoesComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ButtonSaveComponent);
+    fixture = TestBed.createComponent(ButtonAcoesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

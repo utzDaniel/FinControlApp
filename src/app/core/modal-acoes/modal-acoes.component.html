@@ -1,0 +1,27 @@
+<div *ngIf="isVisible" [attr.inert]="isVisible ? true : null">
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content>
+    <p>{{ data.message }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions class="button-container">
+    <button
+      mat-fab
+      extended
+      (keydown.enter)="confirmDialog()"
+      (click)="confirmDialog()"
+      class="custom-button confirm-button"
+    >
+      <mat-icon>check_circle</mat-icon> Sim
+    </button>
+
+    <button
+      mat-fab
+      extended
+      (click)="closeDialog()"
+      (keydown.enter)="closeDialog()"
+      class="custom-button cancel-button"
+    >
+      <mat-icon>cancel</mat-icon> Não
+    </button>
+  </mat-dialog-actions>
+</div>

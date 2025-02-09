@@ -1,0 +1,10 @@
+<button
+  mat-fab
+  extended
+  [disabled]="disabled"
+  (click)="eventAction($event)"
+  (keydown.enter)="eventAction($event)"
+  class="custom-button {{ tipo }}-button"
+>
+  <mat-icon>{{ tipo }}</mat-icon> {{ label }}
+</button>

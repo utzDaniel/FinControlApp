@@ -1,21 +1,44 @@
-.confirm-button {
-  background-color: #4caf50;
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
+
+.custom-button {
   color: white;
-  padding: 0px 12px;
   font-size: 14px;
+  border: 0px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s, box-shadow 0.3s;
   height: 45px;
-  min-width: 90px;
+  width: 80px;
 }
 
-.confirm-button mat-icon {
-  margin-right: 2px;
+.custom-button mat-icon {
+  margin-right: 3px;
   margin-top: 3px;
   font-size: 20px;
+}
+
+.cancel-button {
+  background-color: #f44336;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+  cursor: pointer;
+}
+
+.cancel-button:active {
+  background-color: #b71c1c;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-button {
+  background-color: #4caf50;
 }
 
 .confirm-button:hover {
