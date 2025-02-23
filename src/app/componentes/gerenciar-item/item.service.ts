@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Item } from '../../core/item';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Paginacao } from '../../core/paginacao';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,18 @@ export class ItemService {
 
   constructor(readonly http: HttpClient) {}
 
-  listar(): Observable<Item[]> {
-    return this.http.get<Item[]>(this.API);
+  listar(
+    paginaAtual: number,
+    itensPorPagina: number,
+    valor: string
+  ): Observable<Paginacao<Item>> {
+    let params = new HttpParams()
+      .set('paginaAtual', paginaAtual)
+      .set('itensPorPagina', itensPorPagina);
+    if (valor) {
+      params = params.append('valor', valor);
+    }
+    return this.http.get<Paginacao<Item>>(this.API, { params: params });
   }
 
   criar(item: Item): Observable<Item> {

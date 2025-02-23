@@ -1,74 +1,66 @@
 import { ItemService } from '../item.service';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { DialogData } from '../../../core/dialog-data';
 import { FormsModule } from '@angular/forms';
 import { Item } from '../../../core/item';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ButtonAcoesComponent } from '../../../core/button-acoes/button-acoes.component';
+import { PaginacaoComponent } from '../../../core/paginacao/paginacao.component';
+import { Paginacao } from '../../../core/paginacao';
+import { FiltroComponent } from '../../../core/filtro/filtro.component';
+import { ItemComponent } from '../item/item.component';
 
 @Component({
   selector: 'app-itens',
   imports: [
     CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
     FormsModule,
     ButtonAcoesComponent,
+    PaginacaoComponent,
+    FiltroComponent,
+    ItemComponent,
   ],
   templateUrl: './itens.component.html',
   styleUrl: './itens.component.css',
 })
-export class ItensComponent implements OnInit, AfterViewInit {
+export class ItensComponent implements OnInit {
   readonly DIALOG_DATA: DialogData = {
     title: 'Confirmar Exclusão',
     message: 'Tem certeza que deseja excluir este item?',
   };
-  readonly COLUNAS: string[] = ['id', 'nome'];
   readonly _snackBar = inject(MatSnackBar);
+  readonly ITENS_POR_PAGINA: number = 10;
 
-  @ViewChild(MatPaginator) paginator?: MatPaginator;
-
-  dataSource: MatTableDataSource<Item> = new MatTableDataSource<Item>();
-
+  itensPaginado?: Paginacao<Item>;
   selectedItem?: Item | null;
+  filtoValor: string = '';
   isEditing: boolean = false;
   newItem: Item = { id: 0, nome: '' };
   newOld: Item = { id: 0, nome: '' };
+  ultimoItem?: Item | null;
   isModalOpen: boolean = false;
 
   constructor(readonly service: ItemService) {}
 
   ngOnInit(): void {
-    this.service.listar().subscribe((itens) => {
-      this.dataSource.data = [...itens];
-    });
+    this.service
+      .listar(1, this.ITENS_POR_PAGINA, this.filtoValor)
+      .subscribe((itensPaginado) => {
+        this.itensPaginado = itensPaginado;
+      });
   }
 
-  ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
+  onFiltrar(event: KeyboardEvent): void {
+    this.filtoValor = (event.target as HTMLInputElement).value;
+    this.service
+      .listar(1, this.ITENS_POR_PAGINA, this.filtoValor)
+      .subscribe((itensPaginado) => {
+        this.itensPaginado = itensPaginado;
+      });
   }
 
-  filtrar(event: KeyboardEvent): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  selecionar(item: Item): void {
+  onSelect(item: Item): void {
     if (this.isEditing) return;
     if (this.selectedItem === item) {
       this.selectedItem = null;
@@ -81,8 +73,10 @@ export class ItensComponent implements OnInit, AfterViewInit {
     const nome = this.selectedItem ? this.selectedItem.nome : '';
     this.newItem = { id: 0, nome: nome };
     this.isEditing = true;
-    this.dataSource.data = [this.newItem, ...this.dataSource.data];
+    this.itensPaginado!.itens = [this.newItem, ...this.itensPaginado!.itens];
+    this.atulizarPaginacao(true);
     this.selectedItem = this.newItem;
+    this.ultimoItem = this.itensPaginado!.itens.pop();
   }
 
   onEdit(): void {
@@ -93,12 +87,13 @@ export class ItensComponent implements OnInit, AfterViewInit {
 
   onDelete(event: any): void {
     if (event && this.selectedItem) {
-      const data = this.dataSource.data.filter(
+      const data = this.itensPaginado!.itens.filter(
         (item) => item.id !== this.selectedItem?.id
       );
-      this.dataSource.data = [...data];
+      this.itensPaginado!.itens = [...data];
+      this.atulizarPaginacao(false);
       this.service.excluir(this.selectedItem.id!).subscribe(() => {
-        this.infoAcao('Item deletado', 'X');
+        this.infoAcao('Item deletado');
       });
     }
     this.selectedItem = null;
@@ -107,12 +102,13 @@ export class ItensComponent implements OnInit, AfterViewInit {
   onSave(): void {
     if (this.newItem.id !== 0) {
       this.service.editar(this.newItem).subscribe(() => {
-        this.infoAcao('Item editado', 'X');
+        this.infoAcao('Item editado');
       });
     } else {
       this.service.criar(this.newItem).subscribe((item) => {
-        this.dataSource.data.filter((item) => item.id === 0)[0].id = item.id;
-        this.infoAcao('Item criado', 'X');
+        this.itensPaginado!.itens.filter((item) => item.id === 0)[0].id =
+          item.id;
+        this.infoAcao('Item criado');
       });
     }
     this.newItem = { id: -1, nome: '' };
@@ -122,14 +118,15 @@ export class ItensComponent implements OnInit, AfterViewInit {
 
   onCancel(): void {
     if (this.newItem.id !== 0) {
-      this.dataSource.data.filter(
+      this.itensPaginado!.itens.filter(
         (item) => item.id === this.newOld.id
       )[0].nome = this.newOld.nome;
     } else {
-      const data = this.dataSource.data.filter(
+      const data = this.itensPaginado!.itens.filter(
         (item) => item.id !== this.newItem.id
       );
-      this.dataSource.data = [...data];
+      this.itensPaginado!.itens = [...data, this.ultimoItem!];
+      this.atulizarPaginacao(false);
     }
     this.newItem = { id: 0, nome: '' };
     this.isEditing = false;
@@ -140,11 +137,28 @@ export class ItensComponent implements OnInit, AfterViewInit {
     element[campo] = evento.target.value;
   }
 
-  infoAcao(message: string, action: string): void {
-    this._snackBar.open(message, action, {
+  infoAcao(message: string): void {
+    this._snackBar.open(message, 'X', {
       horizontalPosition: 'end',
       verticalPosition: 'bottom',
       duration: 1200,
     });
+  }
+
+  onPaginaMudou(pagina: number): void {
+    this.service
+      .listar(pagina, this.ITENS_POR_PAGINA, this.filtoValor)
+      .subscribe((itensPaginado) => {
+        this.itensPaginado = itensPaginado;
+      });
+  }
+
+  atulizarPaginacao(adicionar: boolean): void {
+    if (adicionar) this.itensPaginado!.quantidadeTotalDeItens++;
+    else this.itensPaginado!.quantidadeTotalDeItens--;
+    this.itensPaginado!.quantidadeDePaginas = Math.ceil(
+      this.itensPaginado!.quantidadeTotalDeItens /
+        this.itensPaginado!.itensPorPagina
+    );
   }
 }

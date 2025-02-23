@@ -1,0 +1,18 @@
+<div class="item">
+  <div
+    class="item-span"
+    *ngIf="!isEditing || idSelect !== item?.id; else input"
+  >
+    <div class="text-span">
+      <span>{{ item!.id }}</span>
+    </div>
+    <div class="text-span">
+      <span>{{ item!.nome }}</span>
+    </div>
+  </div>
+
+  <ng-template #input>
+    <input id="id" disabled [(ngModel)]="item!.id" />
+    <input id="nome" [(ngModel)]="item!.nome" />
+  </ng-template>
+</div>

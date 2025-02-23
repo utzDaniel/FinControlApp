@@ -1,100 +1,88 @@
-<div class="button-container">
-  <mat-form-field class="filtro">
-    <mat-label>Filtrar</mat-label>
-    <input
-      class="filtro_2"
-      matInput
-      (keyup)="filtrar($event)"
-      placeholder="Ex. id, nome"
-    />
-  </mat-form-field>
+<div class="header-container">
+  <app-filtro (actionResult)="onFiltrar($event)"></app-filtro>
 
-  <app-button-acoes
-    *ngIf="!isEditing"
-    [label]="'Cadastrar'"
-    [tipo]="'add'"
-    (actionResult)="onCreate()"
-  >
-  </app-button-acoes>
+  <div class="button-container">
+    <app-button-acoes
+      *ngIf="!isEditing"
+      [label]="'Cadastrar'"
+      [tipo]="'add'"
+      (actionResult)="onCreate()"
+    >
+    </app-button-acoes>
 
-  <app-button-acoes
-    *ngIf="!isEditing"
-    [label]="'Editar'"
-    [tipo]="'edit'"
-    [disabled]="!selectedItem"
-    (actionResult)="onEdit()"
-  >
-  </app-button-acoes>
+    <app-button-acoes
+      *ngIf="!isEditing"
+      [label]="'Editar'"
+      [tipo]="'edit'"
+      [disabled]="!selectedItem"
+      (actionResult)="onEdit()"
+    >
+    </app-button-acoes>
 
-  <app-button-acoes
-    *ngIf="!isEditing"
-    [label]="'Deletar'"
-    [tipo]="'delete'"
-    [disabled]="!selectedItem"
-    [dialogData]="DIALOG_DATA"
-    (actionResult)="onDelete($event)"
-  >
-  </app-button-acoes>
+    <app-button-acoes
+      *ngIf="!isEditing"
+      [label]="'Deletar'"
+      [tipo]="'delete'"
+      [disabled]="!selectedItem"
+      [dialogData]="DIALOG_DATA"
+      (actionResult)="onDelete($event)"
+    >
+    </app-button-acoes>
 
-  <app-button-acoes
-    *ngIf="isEditing"
-    [label]="'Salvar'"
-    [tipo]="'save'"
-    (actionResult)="onSave()"
-  >
-  </app-button-acoes>
+    <app-button-acoes
+      *ngIf="isEditing"
+      [label]="'Salvar'"
+      [tipo]="'save'"
+      (actionResult)="onSave()"
+    >
+    </app-button-acoes>
 
-  <app-button-acoes
-    *ngIf="isEditing"
-    [label]="'Cancelar'"
-    [tipo]="'cancel'"
-    (actionResult)="onCancel()"
-  >
-  </app-button-acoes>
+    <app-button-acoes
+      *ngIf="isEditing"
+      [label]="'Cancelar'"
+      [tipo]="'cancel'"
+      (actionResult)="onCancel()"
+    >
+    </app-button-acoes>
+  </div>
 </div>
 
 <div>
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let element">
-        <span *ngIf="!(element.id === newItem.id)">{{ element.id }}</span>
+  <table>
+    <thead class="header">
+      <tr>
+        <th class="coluna">ID</th>
+        <th class="coluna">Nome</th>
+      </tr>
+    </thead>
 
-        <mat-form-field *ngIf="element.id === newItem.id">
-          <input matInput disabled [value]="element.id" />
-        </mat-form-field>
-      </td>
-    </ng-container>
+    <tbody *ngFor="let item of itensPaginado?.itens">
+      <tr
+        (click)="onSelect(item)"
+        (keydown.enter)="onSelect(item)"
+        [ngClass]="{ selected: item === selectedItem }"
+      >
+        <td class="coluna" colspan="2">
+          <app-item
+            [item]="item"
+            [idSelect]="selectedItem?.id"
+            [isEditing]="isEditing"
+          ></app-item>
+        </td>
+      </tr>
+    </tbody>
 
-    <ng-container matColumnDef="nome">
-      <th mat-header-cell *matHeaderCellDef>Nome</th>
-      <td mat-cell *matCellDef="let element">
-        <span *ngIf="!(element.id === newItem.id)">{{ element.nome }}</span>
-
-        <mat-form-field *ngIf="element.id === newItem.id">
-          <input
-            matInput
-            [value]="element.nome"
-            (input)="atualizarCampo(element, 'nome', $event)"
-          />
-        </mat-form-field>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="COLUNAS"></tr>
-    <tr
-      mat-row
-      (click)="selecionar(row)"
-      (keydown.enter)="selecionar(row)"
-      [ngClass]="{ selected: row === selectedItem }"
-      *matRowDef="let row; columns: COLUNAS"
-    ></tr>
+    <tfoot>
+      <tr>
+        <td colspan="2">
+          <app-paginacao
+            *ngIf="itensPaginado"
+            [paginacao]="itensPaginado"
+            (paginaMudou)="onPaginaMudou($event)"
+          >
+          </app-paginacao>
+        </td>
+      </tr>
+    </tfoot>
   </table>
-
-  <mat-paginator
-    [pageSizeOptions]="[11]"
-    aria-label="Select page"
-    showFirstLastButtons
-  >
-  </mat-paginator>
 </div>

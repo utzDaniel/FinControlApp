@@ -1,0 +1,43 @@
+<div class="pagination-container">
+  <div class="faixa-itens">
+    <span>{{ mostrarFaixaDeItens() }}</span>
+  </div>
+
+  <div class="navegacao">
+    <span
+      class="navegacao-icon"
+      (click)="irParaPagina(1)"
+      (keydown.enter)="irParaPagina(1)"
+      [class.disabled]="paginacao.paginaAtual === 1"
+    >
+      <i class="material-icons">first_page</i>
+    </span>
+
+    <span
+      class="navegacao-icon"
+      (click)="irParaPaginaAnterior()"
+      (keydown.enter)="irParaPaginaAnterior()"
+      [class.disabled]="paginacao.paginaAtual === 1"
+    >
+      <i class="material-icons">chevron_left</i>
+    </span>
+
+    <span
+      class="navegacao-icon"
+      (click)="irParaProximaPagina()"
+      (keydown.enter)="irParaProximaPagina()"
+      [class.disabled]="paginacao.paginaAtual === paginacao.quantidadeDePaginas"
+    >
+      <i class="material-icons">chevron_right</i>
+    </span>
+
+    <span
+      class="navegacao-icon"
+      (click)="irParaPagina(paginacao.quantidadeDePaginas)"
+      (keydown.enter)="irParaPagina(paginacao.quantidadeDePaginas)"
+      [class.disabled]="paginacao.paginaAtual === paginacao.quantidadeDePaginas"
+    >
+      <i class="material-icons">last_page</i>
+    </span>
+  </div>
+</div>

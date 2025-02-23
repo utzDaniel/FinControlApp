@@ -1,0 +1,59 @@
+.pagination-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    font-family: Arial, sans-serif;
+    justify-content: flex-end;
+    min-height: 56px;
+    margin-right: 20px;
+  }
+  
+  .faixa-itens {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .navegacao {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .navegacao span {
+    cursor: pointer;
+    font-size: 18px;
+    color: #bdb9b9;
+  }
+  
+  .navegacao-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .navegacao-icon:hover {
+    background-color: #e7e7e7;
+  }
+  
+  .navegacao-icon.disabled {
+    cursor: not-allowed;
+    color: #000000;
+  }
+  
+  .navegacao .active {
+    font-weight: bold;
+  }
+  
+  .info-pagina {
+    font-size: 10px;
+    color: #000000;
+  }
+  
+  .material-icons {
+    font-size: 22px;
+  }
+  

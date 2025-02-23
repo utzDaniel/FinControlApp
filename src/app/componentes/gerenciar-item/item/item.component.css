@@ -1,0 +1,29 @@
+.item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.item-span {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 30px;
+  width: 100%;
+  gap: 20px;
+}
+
+.text-span{
+  width: 50%;
+}
+
+input {
+  width: 50%;
+  height: 30px;
+}
